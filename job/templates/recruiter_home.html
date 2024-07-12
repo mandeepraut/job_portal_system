@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recruiter Home</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+    {% include 'recruiter_navigation.html' %}
+    <div class="container mt-4">
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome, {{ request.user.first_name }} !</h1>
+            <p class="lead">This is your recruiter home page. Manage your job listings and recruit talent.</p>
+            <hr class="my-4">
+            <p>Below is your recruiter information:</p>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Company:</strong> {{ recruiter.company }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ recruiter.email }}</li>
+                <li class="list-group-item"><strong>Phone:</strong> {{ recruiter.phone }}</li>
+                <!-- Add more details as needed -->
+            </ul>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

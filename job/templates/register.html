@@ -1,0 +1,91 @@
+{% load static %}
+{% block body %}
+<title>User Registration</title>
+{% include 'nav.html' %}
+<script>
+    function checkpass() {
+        if (document.signup.password.value != document.signup.confirm_password.value) {
+            alert('Password and Repeat Password Do not Match');
+            document.signup.confirm_password.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px;color: darkcyan;background-color: black; font-weight: bold; margin-top: 1%;">User Sign Up</marquee>
+<hr>
+<form class="container mt-5" onsubmit="return checkpass()" name="signup" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_first_name">First Name</label>
+            <input type="text" class="form-control" id="id_first_name" name="first_name" placeholder="Enter First Name" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_last_name">Last Name</label>
+            <input type="text" class="form-control" id="id_last_name" name="last_name" placeholder="Enter Last Name" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_contact">Contact</label>
+            <input type="text" class="form-control" id="id_contact" name="contact" placeholder="Enter Your Contact Number" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_email">Email</label>
+            <input type="email" class="form-control" id="id_email" name="email" placeholder="Enter Your Email Address" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_password">Password</label>
+            <input type="password" class="form-control" id="id_password" name="password" placeholder="Enter Password" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_confirm_password">Confirm Password</label>
+            <input type="password" class="form-control" id="id_confirm_password" name="confirm_password" placeholder="Enter Password Again" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Gender</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" required>
+                <label class="form-check-label" for="genderMale">Male</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" required>
+                <label class="form-check-label" for="genderFemale">Female</label>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_image">Image</label>
+            <input type="file" class="form-control" id="id_image" name="image">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="id_skill_list">Skills (comma-separated)</label>
+            <input type="text" class="form-control" id="id_skill_list" name="skill_list" placeholder="Enter your skills" required>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-top:2%; color: darkcyan; background-color: black;">Submit</button>
+</form>
+<div class="login-box mt-3 text-center border border-secondary p-3">
+    <p>Already have an account? <br><a href="{% url 'user_login' %}">Log In</a>.</p>
+</div>
+{% include 'footer.html' %}
+
+{% if error == "no" %}
+<script>
+    alert("Signup Successful");
+    window.location = ("{% url 'user_login' %}");
+</script>
+{% endif %}
+
+{% if error %}
+<script>
+    alert("Error: {{ error }}");
+</script>
+{% endif %}
+{% endblock body %}

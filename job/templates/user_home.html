@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+        .jumbotron {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .list-group-item {
+            border: none;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    {% include 'user_navigation.html' %}
+    <div class="container mt-4">
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome, {{ user.first_name }}!</h1>
+            <p class="lead">This is your home page. Here you can find your personalized content.</p>
+            <hr class="my-4">
+            <p>Below is your profile information:</p>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>First Name:</strong> {{ user.first_name }}</li>
+                <li class="list-group-item"><strong>Last Name:</strong> {{ user.last_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                {% if profile %}
+                    <li class="list-group-item"><strong>Contact:</strong> {{ profile.mobile }}</li>
+                    <li class="list-group-item"><strong>Gender:</strong> {{ profile.gender }}</li>
+                    <li class="list-group-item"><strong>Skills:</strong> {{ profile.skill_list }}</li>
+                    <li class="list-group-item"><strong>Profile Image:</strong>
+                        {% if profile.image %}
+                            <img src="{{ profile.image.url }}" alt="Profile Image" class="profile-img mt-2">
+                        {% else %}
+                            No image available
+                        {% endif %}
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="mt-4 text-center">
+            <h2>Job Applications</h2>
+            {% if applications %}
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Company</th>
+                            <th>Apply Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                            <tr>
+                                <td>{{ application.job.title }}</td>
+                                <td>{{ application.job.recruiter.company }}</td>
+                                <td>{{ application.applydate }}</td>
+                                <td>{{ application.get_status_display }}</td>
+                                <!-- <td><a href="{{ application.resume.url }}" class="btn btn-custom btn-sm">Download Resume</a></td> -->
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    You have not applied for any jobs yet.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% include 'footer.html' %}
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

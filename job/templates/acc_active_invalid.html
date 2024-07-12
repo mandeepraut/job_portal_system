@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activation Error</title>
+
+</head>
+<body>
+    {% include 'nav.html' %}
+    <div class="container">
+        <div class="alert alert-danger mt-5" role="alert">
+            <h4 class="alert-heading">Activation Failed!</h4>
+            <p>The activation link is invalid or has expired. Please try registering again.</p>
+            <hr>
+            <a href="{% url 're_register' %}" class="btn btn-primary">Register Again</a>
+        </div>
+    </div>
+    
+</body>
+</html>

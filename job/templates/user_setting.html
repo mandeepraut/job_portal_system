@@ -1,0 +1,74 @@
+{% load static %}
+{% block body %}
+<title>User Profile Update</title>
+{% include 'user_navigation.html' %}
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px;color: darkcyan;background-color: black; font-weight: bold; margin-top: 1%;"> Edit UserProfile</marquee>
+<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="container mt-5" onsubmit="return checkpass()" name="signup" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_first_name">First Name</label>
+                    <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{student.user.first_name}}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_last_name">Last Name</label>
+                    <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{student.user.last_name}}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_contact">Contact</label>
+                    <input type="text" class="form-control" id="id_contact" name="contact" value="{{student.mobile}}">
+                </div>
+                <div class="form-group">
+                    <label for="id_skill_list">Skills (comma-separated)</label>
+                    <input type="text" class="form-control" id="id_skill_list" name="skill_list" value="{{ student.skill_list }}">
+                </div>
+                <div class="form-group">
+                    <label for="id_email">Email ID</label>
+                    <input type="email" class="form-control" id="id_email" readonly name="email" value="{{student.user.email}}" required>
+                </div>
+                
+                
+                
+                <div class="form-group">
+                    <label for="id_image">Image</label>
+                    <input type="file" class="form-control"  accept="image/*" id="id_image" name="image">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="margin-top:2%; color: darkcyan; background-color: black;">Submit</button>
+            </form>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="text-center mt-5">
+                {% if student.image %}
+                    <img src="{{ student.image.url }}" class="img-fluid rounded"  alt="Recruiter Image" width="300px" height="300px">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+{% if error == "no" %}
+<script>
+    alert("User Profile has been  Updated Successfully");
+    window.location = ("{% url 'user_home' %}");
+</script>
+{% endif %}
+
+{% if error %}
+<script>
+    alert("Error: {{ error }}");
+</script>
+{% endif %}
+
+{% endblock body %}

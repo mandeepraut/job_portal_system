@@ -1,0 +1,29 @@
+{% load static %}
+{% block body %}
+<title>Admin Login</title>
+{% include 'nav.html' %}
+
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px; color: darkcyan; background-color: black; font-weight: bold; margin-top: 1%;">Admin Login</marquee>
+<hr>
+<form class="container mt-5" method="post">
+    {% csrf_token %}
+    <label><b>Username</b></label>
+    <input type="text" class="form-control" name="uname" placeholder="Enter Your  Username"><br>
+
+    <label><b>Password</b></label>
+    <input type="password" class="form-control" name="pwd" placeholder="Enter Password"><br>
+
+    <input type="submit" class="btn btn-primary" style="margin-top:2%; color: darkcyan; background-color: black;">
+</form>
+
+{% if error == "no" %}
+<script>
+    alert("Admin Page Login Successful");
+    window.location = ("{% url 'admin_home' %}");
+</script>
+{% elif error %}
+<script>
+    alert("Invalid Login Credentials, Try Again by checking your email and password");
+</script>
+{% endif %}
+{% endblock body %}

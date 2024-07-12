@@ -1,0 +1,60 @@
+{% load static %}
+{% block body %}
+<title>Apply for Job</title>
+{% include 'user_navigation.html' %}
+<div class="marquee-container">
+    <p class="marquee">Apply for Job</p>
+</div>
+<hr>
+
+<div class="container shadow-lg py-2 mb-4">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+            <label class="font-weight-bold">Upload Resume</label>
+            <input type="file" class="form-control" name="resume" required>
+        </div>
+        <input type="submit" value="submit" class="btn btn-danger mt-3">
+    </form>
+</div>
+
+{% if error %}
+<script>
+    var error = "{{ error }}";
+    if (error === "no") {
+        alert("Application lines are closed, as the last date is over.");
+    } else if (error === "notopen") {
+        alert("Application lines are not open, as the start date is not reached.");
+    } else if (error === "Done") {
+        alert("Job Application Submitted Successfully.");
+    } else {
+        alert("Error: " + error);
+    }
+    window.location.href = "{% url 'user_latestjob' %}";
+</script>
+{% endif %}
+{% endblock body %}
+
+<style>
+.marquee-container {
+    overflow: hidden;
+    position: relative;
+    background-color: black;
+    color: darkcyan;
+    font-family: 'Monotype Corsiva';
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 1%;
+}
+
+.marquee {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+</style>

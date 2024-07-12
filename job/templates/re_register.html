@@ -1,0 +1,114 @@
+{% load static %}
+{% block body %}
+<title>Recruiter Registration</title>
+{% include 'nav.html' %}
+
+<!-- Modal for Messages -->
+<div id="messageModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeMessageModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message-text"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="closeMessageModal()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showMessageModal(message) {
+        var modal = document.getElementById('messageModal');
+        var messageText = document.getElementById('modal-message-text');
+        messageText.textContent = message;
+        modal.style.display = 'block';
+    }
+
+    function closeMessageModal() {
+        var modal = document.getElementById('messageModal');
+        modal.style.display = 'none';
+    }
+
+    window.onload = function() {
+        var error = '{{ error|escapejs }}';
+        var successMessage = '{{ success_message|escapejs }}';
+        if (error) {
+            showMessageModal(error);
+        }
+        if (successMessage) {
+            showMessageModal(successMessage);
+        }
+    }
+</script>
+
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px;color: darkcyan;background-color: black; font-weight: bold; margin-top: 1%;">Recruiter Sign Up</marquee>
+<hr>
+<form class="container mt-5" onsubmit="return checkpass()" name="signup" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_first_name">First Name</label>
+            <input type="text" class="form-control" id="id_first_name" name="first_name" placeholder="Enter First Name" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_last_name">Last Name</label>
+            <input type="text" class="form-control" id="id_last_name" name="last_name" placeholder="Enter Last Name" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_contact">Contact</label>
+            <input type="text" class="form-control" id="id_contact" name="contact" placeholder="Enter Your Contact Number" >
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_company">Company</label>
+            <input type="text" class="form-control" id="id_company" name="company" placeholder="Enter Your Company Name" >
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="id_email">Email</label>
+            <input type="email" class="form-control" id="id_email" name="email" placeholder="Enter Your Email Address" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_password">Password</label>
+            <input type="password" class="form-control" id="id_password" name="password" placeholder="Enter Password" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_confirm_password">Confirm Password</label>
+            <input type="password" class="form-control" id="id_confirm_password" name="confirm_password" placeholder="Enter Password Again" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Gender</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" >
+                <label class="form-check-label" for="genderMale">Male</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female" >
+                <label class="form-check-label" for="genderFemale">Female</label>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="id_image">Image</label>
+            <input type="file" class="form-control" id="id_image" name="image">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-top:2%; color: darkcyan; background-color: black;">Submit</button>
+</form>
+<div class="login-box mt-3 text-center border border-secondary p-3">
+    <p>Already have an account? <br><a href="{% url 'recruiter_login' %}">Log In</a>.</p>
+</div>
+{% include 'footer.html' %}
+{% endblock body %}

@@ -1,0 +1,97 @@
+{% load static %}
+{% block body %}
+<title>Recruiter Login</title>
+{% include 'nav.html' %}
+
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px; color: darkcyan; background-color: black; font-weight: bold; margin-top: 1%;">Recruiter Login</marquee>
+<hr>
+<style>
+    .container {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 2px solid darkcyan;
+        transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: black;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary {
+        background-color: black;
+        color: darkcyan;
+        border: none;
+        transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: darkcyan;
+        transform: scale(1.05);
+    }
+
+    .register-box {
+        animation: slideIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<form class="container mt-5" method="post">
+    {% csrf_token %}
+    <label><b>Email</b></label>
+    <input type="text" class="form-control" name="uname" placeholder="Enter Username" required><br>
+
+    <label><b>Password</b></label>
+    <input type="password" class="form-control" name="pwd" placeholder="Enter Password" required><br>
+
+    <input type="submit" class="btn btn-primary" style="margin-top: 2%;">
+    <div class="register-box mt-3 text-center border border-secondary p-3">
+        <p>Don't have an account? <br><a href="{% url 're_register' %}">Sign Up</a>.</p>
+    </div>
+</form>
+{% include 'footer.html' %}
+
+{% if error == "no" %}
+<script>
+    alert("Login Successful");
+    window.location = ("{% url 'recruiter_home' %}");
+</script>
+{% elif error == "pending" %}
+<script>
+    alert("Your Login information is Pending");
+</script>
+{% elif error == "invalid_credentials" %}
+<script>
+    alert("Invalid Login Credentials, Try Again by checking your email and password");
+</script>
+{% elif error == "not_a_recruiter" %}
+<script>
+    alert("This user is not registered as a recruiter");
+</script>
+{% elif error == "recruiter_not_found" %}
+<script>
+    alert("No recruiter found for this user");
+</script>
+{% endif %}
+
+{% endblock body %}

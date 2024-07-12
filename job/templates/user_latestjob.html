@@ -1,0 +1,134 @@
+{% load static %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Jobs for Users</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+        .marquee-text {
+            font-family: 'Monotype Corsiva';
+            font-size: 30px;
+            color: darkcyan;
+            background-color: black;
+            font-weight: bold;
+            margin-top: 1%;
+            padding: 10px;
+            text-align: center;
+        }
+        .card-body {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .table thead th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .btn-custom {
+            border-radius: 20px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .alert {
+            margin-bottom: 20px;
+        }
+        .no-jobs {
+            font-size: 18px;
+            font-weight: bold;
+            color: #dc3545;
+        }
+        .apply-btn {
+            border-radius: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .apply-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'user_navigation.html' %}
+
+    <marquee class="marquee-text">Latest Job List</marquee>
+    <hr>
+
+  
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <!-- Search Form -->
+                <form method="get" action="{% url 'user_latestjob' %}" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search" placeholder="Search jobs by title..." value="{{ search_query }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary btn-custom" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+
+                {% if not job %}
+                    <div class="alert alert-danger no-jobs" role="alert">
+                        No jobs found.
+                    </div>
+                {% else %}
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>S.N</th>
+                                <th>Job Title</th>
+                                <th>Company Name</th>
+                                <th>Location</th>
+                                <th>Job Posted Date</th>
+                                <th>Apply End Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in job %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ i.title }}</td>
+                                <td>{{ i.recruiter.company }}</td>
+                                <td>{{ i.location }}</td>
+                                <td>{{ i.start_date }}</td>
+                                <td>{{ i.end_date }}</td>
+                                {% if i.id in li %}
+                                    <td><span class="badge badge-secondary">Applied</span></td>
+                                {% else %}
+                                    <td><a href="{% url 'job_detail' i.id %}" class="btn btn-custom btn-sm"><i class="fa fa-paper-plane"></i> Apply</a></td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock body %}

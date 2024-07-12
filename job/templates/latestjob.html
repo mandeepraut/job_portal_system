@@ -1,0 +1,64 @@
+{% load static %}
+{% block body %}
+<title>Latest Jobs for Users</title>
+{% include 'nav.html' %}
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px;color: darkcyan;background-color: black; font-weight: bold; margin-top: 1%;">Latest Job List</marquee>
+<hr>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <!-- Search Form -->
+            <form method="get" action="{% url 'latestjob' %}" class="mb-4">
+                <div class="input-group" style="max-width: 300px; margin: left;">
+                    <input type="text" class="form-control" name="search" placeholder="Search jobs by title..." value="{{ search_query }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% else %}
+                <table class="table table-hover" id="example">
+                    <thead>
+                        <tr style="background-color: blueviolet; color: white">
+                            <th>S.N</th>
+                            <th>Job Title</th>
+                            <th>Company Name</th>
+                            <th>Location</th>
+                            <th>Job Posted Date</th>
+                            <th>Apply End Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in data %}
+                        <tr style="background-color: lightcyan;">
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ i.title }}</td>
+                            <td>{{ i.recruiter.company }}</td>
+                            <td>{{ i.location }}</td>
+                            <td>{{ i.start_date }}</td>
+                            <td>{{ i.end_date }}</td>
+                            <td>
+                                <a href="{% url 'user_login'  %}" class="btn btn-success btn-sm">
+                                    <span class="ml-1">Login to Apply</span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7">No jobs found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

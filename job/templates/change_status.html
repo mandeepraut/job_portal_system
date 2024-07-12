@@ -1,0 +1,36 @@
+{% load static %}
+{% block body %}
+<title>Changing Status</title>
+{% include 'admin_navigation.html' %}
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px;color: darkcyan;background-color: black; font-weight: bold; margin-top: 1%;">View Recruiters - Pending</marquee>
+<hr>
+<form class="container mt-5" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="uname"><b>Recruiter Name</b></label>
+        <input type="text" class="form-control" id="uname" name="uname" value="{{ recruiter.user.first_name }} {{ recruiter.user.last_name }}" readonly>
+    </div>
+
+    <div class="form-group">
+        <label for="status"><b>Status</b></label>
+        <select class="form-control" id="status" name="status">
+            <option value="Pending" {% if recruiter.status == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="Accepted" {% if recruiter.status == "Accepted" %}selected{% endif %}>Accepted</option>
+            <option value="Rejected" {% if recruiter.status == "Rejected" %}selected{% endif %}>Rejected</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="color: darkcyan; background-color: black;">Submit</button>
+</form>
+
+{% if error == "no" %}
+<script>
+    alert("Status Changed Successfully");
+    window.location.href = "{% url 'recruiter_pending' %}";
+</script>
+{% elif error == "yes" %}
+<script>
+    alert("Something went wrong!");
+</script>
+{% endif %}
+{% endblock body %}

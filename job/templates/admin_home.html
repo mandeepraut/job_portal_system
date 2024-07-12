@@ -1,0 +1,90 @@
+{% load static %}
+{% block body %}
+<title>Admin Home</title>
+{% include 'admin_navigation.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .marquee {
+            font-family: 'Monotype Corsiva';
+            font-size: 30px;
+            color: darkcyan;
+            background-color: black;
+            font-weight: bold;
+            margin-top: 1%;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .mydiv {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-out;
+            margin-bottom: 20px;
+        }
+        .mydiv:hover {
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            transform: translateY(-10px);
+        }
+        .icon {
+            font-size: 48px;
+            color: darkcyan;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .count {
+            font-size: 28px;
+            font-weight: bold;
+            color: darkcyan;
+        }
+    </style>
+</head>
+<body>
+    <marquee style="font-family: 'Monotype Corsiva'; font-size:30px; color: darkcyan; background-color: black; font-weight: bold; margin-top: 1%;">Admin Login</marquee>
+<hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="mydiv">
+                    <i class="fas fa-user icon"></i>
+                    <div class="title">Total Recruiters</div>
+                    <div class="count">{{ rcount }}</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="mydiv">
+                    <i class="fas fa-users icon"></i>
+                    <div class="title">Total Users</div>
+                    <div class="count">{{ scount }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock body %}

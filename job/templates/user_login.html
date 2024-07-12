@@ -1,0 +1,41 @@
+{% load static %}
+{% block body %}
+<title>User Login</title>
+{% include 'nav.html' %}
+<marquee style="font-family: 'Monotype Corsiva'; font-size:30px;color: darkcyan;background-color: black; font-weight: bold; margin-top: 1%;">User Log In</marquee>
+<hr>
+<form class="container mt-5" method="post">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="id_username">Username</label>
+            <input type="email" class="form-control" id="id_username" name="uname" placeholder="Enter Username" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="id_password">Password</label>
+            <input type="password" class="form-control" id="id_password" name="pwd" placeholder="Enter Password" required>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-top: 2%; color: darkcyan; background-color: black;">Log In</button>
+</form>
+<div class="register-box mt-3 text-center border border-secondary p-3">
+    <p>Don't have an account? <br><a href="{% url 'register' %}">Sign Up</a>.</p>
+</div>
+{% include 'footer.html' %}
+
+
+{% if error == "no" %}
+<script>
+    alert("Login Successful {{request.user.first_name}}");
+    window.location = ("{% url 'user_home' %}");
+</script>
+{% endif %}
+
+{% if error %}
+<script>
+    alert("Invalid Login Credentials, Try Again by checking your email and password");
+</script>
+{% endif %}
+{% endblock body %}

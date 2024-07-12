@@ -1,0 +1,13 @@
+<form method="GET" action="{% url 'search_jobs' %}">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<h2>Search Results</h2>
+<ul>
+    {% for job in jobs %}
+        <li>{{ job.title }} - {{ job.description }}</li>
+    {% empty %}
+        <li>No jobs found.</li>
+    {% endfor %}
+</ul>

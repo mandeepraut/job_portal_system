@@ -1,0 +1,80 @@
+{% load static %}
+{% block body %}
+<title>List of Candidate</title>
+{% include 'recruiter_navigation.html' %}
+<div class="marquee-container">
+    <p class="marquee">Applied Candidate List</p>
+</div>
+<hr>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            {% if data %}
+                <table class="table table-hover" id="example">
+                    <thead>
+                        <tr style="background-color: blueviolet; color: white">
+                            <th>S.N</th>
+                            <th>Full Name</th>
+                            <th>Email ID</th>
+                            <th>Contact Number</th>
+                            <th>Job Title</th>
+                            <th>Company</th>
+                            <th>Apply Date</th>
+                            <th>Resume</th>
+                            <th>Status</th>
+                            <th>Update Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in data %}
+                            {% if request.user.id == i.job.recruiter.user.id %}
+                                <tr style="background-color: lightcyan;">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ i.student.user.first_name }} {{ i.student.user.last_name }}</td>
+                                    <td>{{ i.student.user.username }}</td>
+                                    <td>{{ i.student.mobile }}</td>
+                                    <td>{{ i.job.title }}</td>
+                                    <td>{{ i.job.recruiter.company }}</td>
+                                    <td>{{ i.applydate }}</td>
+                                    <td><a href="{{ i.resume.url }}">Download Resume</a></td>
+                                    <td>{{ i.status }}</td>
+                                    <td><a href="{% url 'update_application_status' i.pk %}">Update Status</a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    No candidates have applied for this job yet.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+<style>
+.marquee-container {
+    overflow: hidden;
+    position: relative;
+    background-color: black;
+    color: darkcyan;
+    font-family: 'Monotype Corsiva';
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 1%;
+}
+
+.marquee {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+</style>
